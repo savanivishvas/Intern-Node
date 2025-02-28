@@ -1,0 +1,29 @@
+req,response --> web server | app server
+
+java: tomcat
+python : django
+.net   :isi server
+.node | express :
+
+npm install express
+
+npm install nodemon -g
+
+
+folder structure:
+
+nodemon app.js
+
+role:
+user:
+
+local serveice: admin,serveiceProvide,user
+projecamanr : Develioe,manager,tester,...
+--------------------------------------------
+
+role: pk roleId
+
+user table:
+roleId fk
+
+joins:select * from users natural join roles;
