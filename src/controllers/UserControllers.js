@@ -1,6 +1,67 @@
 // connect -> userModel
 const userModel = require("../models/UserModel");
+const bcrypt = require("bcrypt");  // for hashed password
 
+// login api
+const loginUser = async (req,res) => {
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const foundUserFromEmail = await userModel.findOne({email:email});
+    console.log(foundUserFromEmail);
+    
+    
+    if(foundUserFromEmail != null){
+
+        const isMatch = bcrypt.compareSync(password,foundUserFromEmail.password);
+
+        if(isMatch == true){
+            res.status(200).json({
+                message:"login success",
+                data:foundUserFromEmail
+            })
+        }
+        else{
+            res.status(404).json({
+                message:"Invalid crendients..."
+            })
+        }
+        
+    }
+   else{
+       res.status(404).json({
+        message:"Emial not found..."
+       })
+   }
+    
+}
+
+// signup api
+const signup = async (req,res) =>{
+
+    try {
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(req.body.password,salt);
+
+        req.body.password = hashedPassword;
+        const createdUser = await userModel.create(req.body);
+        res.status(201).json({
+            message: "create user successfully",
+            data:createdUser
+        });
+        
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message:"Error.....",
+            data:err
+        })
+    }
+
+}
+
+// with try catch block 
 const addUser1 = async (req,res) => {
 
     try {
@@ -19,7 +80,7 @@ const addUser1 = async (req,res) => {
     }
 }
 
-
+// normal add function without try catch block
 const addUser = async (req,res) => {
 
     const savedUser = await userModel.create(req.body);
@@ -31,7 +92,6 @@ const addUser = async (req,res) => {
 }
 
 // getAllUser
-
 const getAllUser = async (req,res) => {
 
     const users = await userModel.find().populate("roleId");
@@ -63,5 +123,5 @@ const getUserById = async (req,res) => {
 }
 
 module.exports = {
-    getAllUser,addUser,deleteUser,getUserById,addUser1
+    getAllUser,addUser,deleteUser,getUserById,addUser1,signup,loginUser
 }

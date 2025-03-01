@@ -1,8 +1,16 @@
 const express = require("express") //express....
 const mongoose = require("mongoose") // database.... 
+const cors = require("cors");
 //express object..
 const app = express();
 
+const corsOptions = {
+    origin:"http://localhost:5173",
+    methods: "GET, POST, PUT, DELETE, PATCH",
+    credentials: true,
+}
+
+app.use(cors(corsOptions));
 app.use(express.json()); // to accept json data
 
 // import Role Routes

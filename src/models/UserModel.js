@@ -19,6 +19,13 @@ const userSchema = new Schema({
     },
     status:{
         type:Boolean
+    },
+    email:{
+        type:String,
+    },
+    password:{
+        type:String,
+        unique:true,
     }
 })
 

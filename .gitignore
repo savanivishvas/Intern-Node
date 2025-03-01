@@ -136,8 +136,12 @@ dist
 .pnp.*
 
 # extra file
+.gitignore
 Data-Dictonary.txt
 Notes.txt
 package-lock.json
 user.js
 .gitignore
+Task.txt
+th.txt
+backup.txt
